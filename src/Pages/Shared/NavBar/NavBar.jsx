@@ -22,7 +22,10 @@ const NavBar = () => {
         <li><Link to={"/"}>Home</Link></li>
         <li><Link to={"/"}>About</Link></li>
         <li><Link to={"/"}>Services</Link></li>
-        <li><Link to={"/login"}>Login</Link></li>
+
+        {
+            !user && <li><Link to={"/login"}>Login</Link></li>
+        }
         <li><Link to={"/"}>Contact</Link></li>
         {
             user && <li><Link onClick={handleLogout} to={"/"}>Log out</Link></li>
@@ -53,7 +56,7 @@ const NavBar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <Link to={"/"} clssName="btn btn-ghost text-xl "><img className='w-[80px]' src={logo} alt="" /></Link>
+                <Link to={"/"} ><img className='w-[80px]' src={logo} alt="" /></Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">

@@ -1,17 +1,22 @@
 
 import { FaFacebook, FaGoogle, FaLinkedin } from "react-icons/fa";
 import loginImg from "../../assets/images/login/login.svg"
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 const Login = () => {
     const { x, signInWithGoogle } = useContext(AuthContext)
-    console.log(import.meta.env.VITE_authDomain)
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    console.log("location on Login Page", location);
+
 
     const handleSignInWithGoogle = () => {
         signInWithGoogle()
             .then((result) => {
                 console.log(result)
+                navigate(location.state ? location.state : "/");
             })
             .catch((error) => {
                 console.log(error)
