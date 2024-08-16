@@ -1,14 +1,51 @@
+import { useContext } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 
 const Checkout = () => {
+    const { user } = useContext(AuthContext);
+
     const service = useLoaderData();
-    const { title, img, price, description } = service;
+    const { _id, title, img, price, description } = service;
     const handleOrder = (e) => {
         e.preventDefault()
         const form = e.target;
+
+        const firstName = form.firstName.value;
+        const lastName = form.lastName.value;
+        const phone = form.phone.value;
+        const email = form.email.value;
         const message = form.message.value;
-        console.log(message)
+        const userName = firstName + " " + lastName;
+        const orderedDate = new Date();
+
+        const order = {
+            userName, phone, email, message, service_id: _id, title, img, price, orderedDate
+        };
+        fetch("http://localhost:1039/orders", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(order)
+
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("data===", data)
+                if (data.insertedId) {
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Order confirmed!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
 
     }
     return (
@@ -29,11 +66,11 @@ const Checkout = () => {
             <form onSubmit={handleOrder} className="bg-gray-600 p-8 my-8 grid grid-cols-2 gap-8 ">
                 <input className="input input-bordered input-error w-full " type="text" name="firstName" placeholder="First Name" />
                 <input className="input input-bordered input-error w-full " type="text" name="lastName" placeholder="Last Name" />
-                <input className="input input-bordered input-error w-full " type="text" name="phoneNumber" placeholder="Your Phone" />
-                <input className="input input-bordered input-error w-full " type="text" name="email" placeholder="Your Email" />
+                <input className="input input-bordered input-error w-full " type="text" name="phone" placeholder="Your Phone" />
+                <input className="input input-bordered input-error w-full " type="text" name="email" placeholder="Your Email" defaultValue={user.email} />
                 {/* <input className="input input-bordered input-error w-full col-span-2" type="text" name="message" placeholder="Your Message" /> */}
                 <textarea className="input input-bordered input-error w-full col-span-2 h-24" name="message" placeholder="Your Message" ></textarea>
-                <input type="submit" value="Order Confirm" className="btn bg-[#FF3811] col-span-2" />
+                <input type="submit" value="Order Confirm" className="btn bg-[#FF3811] col-span-2 text-white" />
 
             </form>
         </div>

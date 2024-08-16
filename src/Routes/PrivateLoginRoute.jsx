@@ -7,7 +7,7 @@ import { HashLoader } from "react-spinners";
 const PrivateLoginRoute = ({ children }) => {
 
     const { user, loading } = useContext(AuthContext);
-    console.log(useLocation())
+
 
     if (loading) {
         return <HashLoader color="#ff0808" />
