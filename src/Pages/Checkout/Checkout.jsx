@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 
@@ -9,6 +9,7 @@ const Checkout = () => {
 
     const service = useLoaderData();
     const { _id, title, img, price, description } = service;
+    const navigate = useNavigate();
     const handleOrder = (e) => {
         e.preventDefault()
         const form = e.target;
@@ -44,6 +45,7 @@ const Checkout = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate("/cart")
                 }
             })
 
