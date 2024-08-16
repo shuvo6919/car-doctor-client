@@ -8,7 +8,6 @@ const Services = () => {
             .then(res => res.json())
             .then(data => setServices(data))
     }, [])
-    console.log("services===", services)
     return (
         <div className='my-5 '>
             <div className='text-center space-y-3'>

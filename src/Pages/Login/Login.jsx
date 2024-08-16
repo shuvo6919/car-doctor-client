@@ -4,19 +4,28 @@ import loginImg from "../../assets/images/login/login.svg"
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import axios from "axios";
 const Login = () => {
     const { x, signInWithGoogle } = useContext(AuthContext)
 
     const location = useLocation();
     const navigate = useNavigate();
-    console.log("location on Login Page", location);
 
 
     const handleSignInWithGoogle = () => {
         signInWithGoogle()
             .then((result) => {
                 console.log(result)
-                navigate(location.state ? location.state : "/");
+                const userEmail = result.user.email;
+                // navigate(location.state ? location.state : "/");
+                // console.log(user)
+                axios.post("http://localhost:1039/jwt", { userEmail })
+                    .then(res => {
+                        console.log(res.data)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
             })
             .catch((error) => {
                 console.log(error)
