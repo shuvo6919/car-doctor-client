@@ -1,16 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { IoIosCloseCircle } from "react-icons/io";
+import axios from "axios";
 
 
 const Cart = () => {
     const { user } = useContext(AuthContext);
-    const [carts, setCarts] = useState([])
+    const [carts, setCarts] = useState([]);
+    const url = `http://localhost:1039/orders?email=${user.email}`;
     useEffect(() => {
-        fetch(`http://localhost:1039/orders?email=${user.email}`)
-            .then(res => res.json())
-            .then(data => setCarts(data));
-    }, [carts])
+
+        axios.get(url, { withCredentials: true })
+            .then(res => {
+                console.log(res.data)
+                setCarts(res.data);
+            })
+            .catch(err => console.log(err))
+    }, [url])
 
     const handleDeleteService = (cartToDelete) => {
         fetch(`http://localhost:1039/orders/${cartToDelete._id}`, {

@@ -15,17 +15,17 @@ const Login = () => {
     const handleSignInWithGoogle = () => {
         signInWithGoogle()
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 const userEmail = result.user.email;
                 // navigate(location.state ? location.state : "/");
                 // console.log(user)
-                axios.post("http://localhost:1039/jwt", { userEmail })
+                axios.post("http://localhost:1039/jwt", { userEmail }, { withCredentials: true })
                     .then(res => {
                         console.log(res.data)
                     })
-                    .catch((error) => {
-                        console.log(error)
-                    })
+                // .catch((error) => {
+                //     console.log(error)
+                // })
             })
             .catch((error) => {
                 console.log(error)
