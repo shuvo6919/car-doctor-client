@@ -1,30 +1,30 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../Providers/AuthProvider";
+import { useEffect, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import axios from "axios";
+import useAuth from "../../Hooks/useAuth";
 
 
 const Cart = () => {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth()
     const [carts, setCarts] = useState([]);
-    const url = `http://localhost:1039/orders?email=${user.email}`;
+    const url = `https://car-doctor-server-ten-flax.vercel.app/orders?email=${user.email}`;
     useEffect(() => {
 
         axios.get(url, { withCredentials: true })
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setCarts(res.data);
             })
-            .catch(err => console.log(err))
+        // .catch(err => console.log(err))
     }, [url])
 
     const handleDeleteService = (cartToDelete) => {
-        fetch(`http://localhost:1039/orders/${cartToDelete._id}`, {
+        fetch(`https://car-doctor-server-ten-flax.vercel.app/orders/${cartToDelete._id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
 
             })
     }

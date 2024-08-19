@@ -25,7 +25,7 @@ const Checkout = () => {
         const order = {
             userName, phone, email, message, service_id: _id, title, img, price, orderedDate
         };
-        fetch("http://localhost:1039/orders", {
+        fetch("https://car-doctor-server-ten-flax.vercel.app/orders", {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -35,7 +35,7 @@ const Checkout = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log("data===", data)
+                // console.log("data===", data)
                 if (data.insertedId) {
 
                     Swal.fire({
